@@ -154,6 +154,16 @@ module ThreatGridClient
       stream_content "samples/#{sample_id}/sample.zip", &block
     end
 
+    def extracted_artifacts(sample_id, &block)
+      raise ArgumentError, 'sample id must be present' if sample_id.nil? || sample_id.empty?
+      stream_content "samples/#{sample_id}/extracted-artifacts.zip", &block
+    end
+
+    def network_artifacts(sample_id, &block)
+      raise ArgumentError, 'sample id must be present' if sample_id.nil? || sample_id.empty?
+      stream_content "samples/#{sample_id}/network-artifacts.zip", &block
+    end
+
     def search(options={})
       api_path = "search/submissions"
       payload = {

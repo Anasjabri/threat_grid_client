@@ -223,6 +223,32 @@ describe ThreatGridClient::API do
       end
     end
 
+    context "#extracted_artifacts" do
+      it 'raises argument error when sample_id is blank' do
+        expect { client.extracted_artifacts("") }.to raise_error ArgumentError
+      end
+
+      it 'downloads extracted artifacts file' do
+        expect(client).to receive(:stream_content).with("samples/#{sample_id}/extracted-artifacts.zip") { "extracted response" }
+        ret = client.extracted_artifacts(sample_id)
+
+        expect(ret).to eql("extracted response")
+      end
+    end
+
+    context "#network_artifacts" do
+      it 'raises argument error when sample_id is blank' do
+        expect { client.network_pcap("") }.to raise_error ArgumentError
+      end
+
+      it 'downloads network artifacts file' do
+        expect(client).to receive(:stream_content).with("samples/#{sample_id}/network-artifacts.zip") { "network response" }
+        ret = client.network_artifacts(sample_id)
+
+        expect(ret).to eql("network response")
+      end
+    end
+
     context "#download_artifact" do
       it 'raises argument error when sha256 is blank' do
         expect { client.download_artifact("") }.to raise_error ArgumentError
